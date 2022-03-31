@@ -114,6 +114,9 @@ echo "</select>";
 											<th>Nama Barang</th>			
 											<th>Jumlah Keluar</th>
 											<th>Tujuan</th>
+                      <th>Nama Rak </th>
+                      <th>Space Rak </th>
+
 
                                         </tr>
 										</thead>
@@ -123,8 +126,13 @@ echo "</select>";
                     <?php 
 									
 									$no = 1;
-									$sql = $koneksi->query("select * from barang_keluar");
-									while ($data = $sql->fetch_assoc()) {
+									$sql = $koneksi->query("select barang_keluar.*,rak.nama_rak from barang_keluar INNER JOIN rak ON barang_keluar.id_rak=rak.id_rak");
+                  $sql2 = $koneksi->query("select * from gudang");
+									$jumlah = $sql2->fetch_assoc();
+									$sql3 = $koneksi->query("select * from rak");
+
+									$rak = $sql3->fetch_assoc();
+                  while ($data = $sql->fetch_assoc()) {
 										
 									?>
 									
@@ -136,6 +144,8 @@ echo "</select>";
 											<td><?php echo $data['nama_barang'] ?></td>
 											<td><?php echo $data['jumlah'] ?></td>
 											<td><?php echo $data['tujuan'] ?></td>
+                      <td><?php echo $data['nama_rak'] ?></td>
+											<td><?php echo $rak['space_rak'] - $jumlah['jumlah']; ?></td>
 
                                         </tr>
 									<?php }?>
